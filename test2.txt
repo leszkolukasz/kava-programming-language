@@ -1,0 +1,46 @@
+fun fact(x: int): int {
+    if (x == 0) {
+        return 1;
+    } else {
+        return x * fact(x - 1);
+    }
+}
+
+const z: F(int) -> int = fact;
+
+print(fact(5));
+print(z(5));
+
+fun apply(f: F(int) -> int, const x: int): int {
+    return f(x);
+}
+
+print(apply(fact, 10));
+
+const auto a = apply;
+print(a(fact, 10));
+
+auto a = fact;
+print(a(10));
+
+print(List.of(List.of(1)) == List.of(List.of(1)));
+print("10"[-2]);
+
+for (const x of List.of(1, 2, 3)) {
+    print(x * 2);
+}
+
+fun p(s: string): F(string) -> void {
+    fun p2(s2: string): void {
+        print(s + s2);
+    }
+
+    return p2;
+}
+
+fun apply(f: F(string) -> F(string) -> void, const x: string): void {
+    auto g = f(x);
+    g("world");
+}
+
+apply(p, "hello");

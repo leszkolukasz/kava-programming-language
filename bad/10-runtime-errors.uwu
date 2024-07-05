@@ -1,0 +1,8 @@
+// Division by zero
+// 1 / 0;
+
+// Index out of bounds
+// List.of(10)[1]; 
+
+// Modulo by zero
+// 1 % 0;

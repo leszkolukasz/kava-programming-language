@@ -1,0 +1,36 @@
+{
+    let x: int = 10;
+    let y: int;
+    const z: string = "hello";
+    10;
+
+    {
+        const y: string = 10;
+
+        fun f(x: int, y: string): int {
+           return x + y;
+        }
+    }
+
+    if (z == ""){
+
+    } 
+
+    if (x > 10) {
+        x = 11;
+    } elif (x < 10) {
+        x = 9;
+    } else {
+        x = 10;
+    }
+
+    ;
+
+    z = (x: int): int -> {return 10;};
+    (x: int): int -> {return 10;};
+    zz;
+
+    while(true || false) {
+        foo(0);
+    }
+}

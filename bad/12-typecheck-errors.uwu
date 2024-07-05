@@ -1,0 +1,70 @@
+// "0" + 0;
+// 0 + true;
+// List.of() + 20;
+
+// Cannot add empty list literal as it's type is unknown
+// List.of() + List.of(2);
+
+// Unknown identifier
+// x;
+
+// Type mismatch
+// let x: F(int) -> void = (x: string): void -> {};
+
+// List element type mismatch
+// List.of(1, List.of(1));
+
+// Non-indexable type
+// 10[0];
+
+// List range is not of type int
+// 10.."11";
+
+// Conflicting return types
+//fun f1(b: bool): void {
+//    if (b) {
+//        return true;
+//    } else {
+//        return "s";
+//    }
+//}
+
+//fun f2(): int {
+//    return "string";
+//}
+
+// Potentially missing return
+//fun g(x: int): int {
+//    if (x < -1) {
+//        return -x; 
+//    } elif (x > 1) {
+//        return x;
+//    }
+//}
+
+// Top level return
+// return 10;
+
+// Uninitialized function var
+// let x: F() -> void;
+
+// Assign to const
+// const x: int = 10;
+// x = 11;
+
+// Not a function
+// let x: int = 10;
+// x(10);
+
+// Invalid argument count and type
+// print();
+
+// const auto f = (x: int, y: string): void -> {};
+// f(1, "", 2);
+// f("", 1);
+
+// Invalid void position
+// const auto f = (x: void): void -> {};
+
+// Cannot infer type
+// const auto x = List.of();

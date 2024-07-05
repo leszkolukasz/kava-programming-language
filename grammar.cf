@@ -1,0 +1,108 @@
+comment    "//" ;
+entrypoints Program ;
+
+Program.   Program ::= [Stmt];
+
+--- Statements ---
+
+Block.             Block ::= "{" [Stmt] "}" ;
+MutableArg. 	   Arg ::= Ident ":" Type ;
+ConstArg. 	       Arg ::= "const" Ident ":" Type ;
+Elif.              Elif ::= "elif" "(" Exp ")" Block ;
+
+StmtEmpty.         Stmt ::= ";" ;
+StmtBlock.         Stmt ::= Block ;
+StmtDeclNoInit.    Stmt ::= "let" Ident ":" Type ";" ;
+StmtDeclInit.      Stmt ::= "let" Ident ":" Type "=" Exp ";" ;
+StmtConstDecl.     Stmt ::= "const" Ident ":" Type "=" Exp ";" ;
+StmtAutoDecl.      Stmt ::= "auto" Ident "=" Exp ";" ;
+StmtConstAutoDecl. Stmt ::= "const" "auto" Ident "=" Exp ";" ;
+StmtAssign.        Stmt ::= Ident "=" Exp ";" ;
+StmtReturn.        Stmt ::= "return" Exp ";" ;
+StmtVoidReturn.    Stmt ::= "return" ";" ;
+StmtIf.            Stmt ::= "if" "(" Exp ")" Block [Elif];
+StmtIfElse.        Stmt ::= "if" "(" Exp ")" Block [Elif] "else" Block ;
+StmtWhile.         Stmt ::= "while" "(" Exp ")" Block ;
+StmtFor.           Stmt ::= "for" "(" "const" Ident "of" Exp ")" Block ;
+StmtExp.           Stmt ::= Exp ";" ;
+StmtFunDef.        Stmt ::= "fun" Ident "(" [Arg] "):" Type Block ;
+assignAdd.         Stmt ::= Ident "+=" Exp ";" ;
+assignSub.         Stmt ::= Ident "-=" Exp ";" ;
+assignMul.         Stmt ::= Ident "*=" Exp ";" ;
+assignDiv.         Stmt ::= Ident "/=" Exp ";" ;
+assignMod.         Stmt ::= Ident "%=" Exp ";" ;
+
+define assignAdd ident exp = StmtAssign ident (ExpAddOp (ExpVar ident) OpPlus exp) ;
+define assignSub ident exp = StmtAssign ident (ExpAddOp (ExpVar ident) OpMinus exp) ;
+define assignMul ident exp = StmtAssign ident (ExpMulOp (ExpVar ident) OpTimes exp) ;
+define assignDiv ident exp = StmtAssign ident (ExpMulOp (ExpVar ident) OpDiv exp) ;
+define assignMod ident exp = StmtAssign ident (ExpMulOp (ExpVar ident) OpMod exp) ;
+
+separator Stmt "" ;
+separator Arg "," ;
+separator Elif "" ;
+
+--- Types ---
+
+TInt.        Type ::= "int" ;
+TBool.       Type ::= "bool" ;
+TVoid.       Type ::= "void" ;
+TString.     Type ::= "string" ;
+TFunction.   Type ::= "F(" [Type] ")" "->" Type ;
+TList.       Type ::= Type "[]" ;
+_.           Type ::= "(" Type ")" ;
+internal TUnknown. Type ::= "unknown" ;
+internal TAny.     Type ::= "any" ;
+
+separator Type "," ;
+
+
+--- Literals ---
+
+LitInt.           Literal ::= Integer ;
+LitBoolTrue.      Literal ::= "true" ;
+LitBoolFalse.     Literal ::= "false" ;
+LitString.        Literal ::= String ;
+LitList.          Literal ::= "List.of(" [Literal] ")" ;
+LitFunction.      Literal ::= "(" [Arg] "):" Type "->" Block ;
+
+separator Literal "," ;
+
+--- Expressions ---
+  
+ExpVar.          Exp9 ::= Ident ;
+ExpLit.          Exp9 ::= Literal ;
+ExpApp.          Exp8 ::= Ident "(" [Exp] ")" ;
+ExpIndex.        Exp7 ::= Exp8 "[" Exp "]" ;
+ExpListRange.    Exp6 ::= Exp7 ".." Exp6 ;
+ExpPrefixOp.     Exp5 ::= PrefixOp Exp6 ;
+--ExpPostfixOp.    Exp5 ::= Exp6 PostfixOp ;
+ExpMulOp.        Exp4 ::= Exp4 MulOp Exp5 ;
+ExpAddOp.        Exp3 ::= Exp3 AddOp Exp4 ;
+ExpRelOp.        Exp2 ::= Exp2 RelOp Exp3 ;
+ExpAnd.          Exp1 ::= Exp1 "&&" Exp2 ;
+ExpOr.           Exp ::= Exp1 "||" Exp1 ;
+
+coercions  Exp 9;
+separator  Exp "," ;
+
+
+--- Operators --- (pożyczone z Latte)
+
+-- OpPreInc.    PrefixOp ::= "++" ;
+-- OpPreDec.    PrefixOp ::= "--" ;
+-- OpPostInc.   PostfixOp ::= "++" ;
+-- OpPostDec.   PostfixOp ::= "--" ;
+OpNeg.       PrefixOp ::= "-" ;
+OpNot.       PrefixOp ::= "!" ;
+OpPlus.      AddOp ::= "+" ;
+OpMinus.     AddOp ::= "-" ;
+OpTimes.     MulOp ::= "*" ;
+OpDiv.       MulOp ::= "/" ;
+OpMod.       MulOp ::= "%" ;
+OpLt.        RelOp ::= "<" ;
+OpLe.        RelOp ::= "<=" ;
+OpGt.        RelOp ::= ">" ;
+OpGe.        RelOp ::= ">=" ;
+OpEq.        RelOp ::= "==" ;
+OpNeq.       RelOp ::= "!=" ;

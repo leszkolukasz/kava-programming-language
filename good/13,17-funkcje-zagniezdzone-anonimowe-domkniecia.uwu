@@ -1,0 +1,56 @@
+fun prepend(s: string): F(string) -> void {
+    fun prepend_inner(s2: string): void {
+        print(s + s2);
+    }
+
+    return prepend_inner;
+}
+
+const auto f2 = prepend("hello");
+f2(" world");
+
+fun wrap(f: F() -> void): F() -> void {
+    fun wrapper(): void {
+        print("start");
+        f();
+        print("end");
+    }
+
+    return wrapper;
+}
+
+const auto f = (): void -> { print("inside"); };
+const auto wrapped = wrap(f);
+wrapped();
+
+fun forEach(arr: int[], f: F(int) -> void): void {
+    for (const el of arr) {
+        f(el);
+    }
+}
+
+auto counter = 0;
+
+const auto count = (el: int): void -> {
+    counter += 1;
+};
+
+forEach(1..10, count);
+print(counter);
+
+fun curry(f: F(int, int) -> int): F(int) -> F(int) -> int {
+    fun inner1(a: int): F(int) -> int {
+        fun inner2(b: int): int {
+            return f(a, b);
+        }
+
+        return inner2;
+    }
+
+    return inner1;
+}
+
+const auto add = (a: int, b: int): int -> { return a + b; };
+const auto curriedAdd = curry(add);
+const auto add2 = curriedAdd(2);
+print(add2(3));

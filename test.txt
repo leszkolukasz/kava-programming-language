@@ -1,0 +1,56 @@
+fun foo (x: int, const y: string): int {
+    return x;
+}
+
+fun foo (x: int, const y: string): int {
+    return x;
+}
+
+List.of(List.of(10)) == List.of(List.of(10));
+
+const bar: F(int) -> void = (x: int): void -> {
+    return;
+};
+
+// "10" == 100;
+
+// L[][""];
+
+10..11;
+
+// bar("");
+
+fun voidFunc (): void {
+    return;
+}
+
+// const x: int = voidFunc();
+
+// const x: int[][] = List.of(List.of(List.of(List.of())));
+
+fun arrFoo(x: int[]): void {
+    return;
+}
+
+arrFoo(List.of(10));
+arrFoo(List.of(10, 20));
+arrFoo(List.of());
+
+const x: int[] = List.of();
+// x += List.of(10);
+
+// List.of() + List.of(10);
+
+fun arrFoo2(x: int[][][]): void {
+    return;
+}
+
+// arrFoo2(List.of(20));
+
+print(10);
+len(List.of(List.of()));
+
+//const x: int[][] = List.of(List.of(""));
+
+print(List.of("a", "b")[3-4] == "b");
+print((-10)..(-20));

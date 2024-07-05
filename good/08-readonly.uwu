@@ -1,0 +1,13 @@
+const x: int = 10;
+
+// Error
+// x = 11;
+
+const auto y = "string";
+
+for (const x of 1..10) {
+    print(x);
+
+    // Error
+    // x = 10;
+}

@@ -1,0 +1,19 @@
+auto l = List.of(1, 2, 3);
+print(l);
+print(l + List.of(4, 5));
+
+print(1..10);
+print((-10)..1);
+print(1..1);
+
+auto l2 = List.of(List.of(1), List.of(2), List.of(3));
+for (const x of l2) {
+    print(x);
+}
+
+print(l2[1]);
+print(l2[-1]);
+
+l2 += List.of(List.of(42));
+print(l2);
+print(len(l2));

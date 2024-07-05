@@ -1,0 +1,18 @@
+let x: int = 10;
+x = x + 5;
+x += 1;
+
+print(x);
+
+const y: string = "621";
+print(y);
+print(y[0]);
+
+auto z = (): void -> { print("hello"); };
+z();
+z = (): void -> { print("world"); };
+z();
+
+// Redefiniowanie
+const auto z = true;
+print(z);
