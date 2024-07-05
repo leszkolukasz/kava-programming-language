@@ -1,5 +1,9 @@
 # Kava - A Simple Programming Language
 
+<p align="center">
+  <img width="300" height="300" src="readme/mascot.webp">
+</p>
+
 ## Introduction
 
 Kava is a programming language inspired by Kotlin with elements borrowed from Java and JavaScript. It is statically typed, interpreted, and supports functions as first-class citizens. It is designed to be simple and easy to learn, with a syntax that is similar to other popular languages.
