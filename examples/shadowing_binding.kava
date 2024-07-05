@@ -1,0 +1,14 @@
+// Variable Shadowing and Static Binding
+let x: int = 10;
+
+{
+    let x: int = 20; // Scoped shadowing
+    print(x); // Prints 20
+}
+print(x); // Prints 10
+
+fun glob(): void {
+    x += 1; // Refers to the outer x
+    print(x); // 11
+}
+glob();

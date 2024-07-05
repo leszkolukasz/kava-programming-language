@@ -1,0 +1,11 @@
+// Runtime Errors in Kava
+// These errors occur during the execution of the program
+
+// Division by zero
+1 / 0; // Runtime Error: Division by zero
+
+// Accessing an index that is out of bounds in a list
+List.of(10)[1]; // Runtime Error: Index out of bounds
+
+// Modulo operation by zero
+1 % 0; // Runtime Error: Modulo by zero

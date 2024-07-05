@@ -1,12 +1,4 @@
-fun foo(x: int, y: string): void {
-    print(x);
-    print(y);
-
-    return; // opcjonalne
-}
-
-foo(42, "hello");
-
+// Functions of Any Types
 fun apply(f: F(string) -> string, x: string): string {
     return f(x);
 }

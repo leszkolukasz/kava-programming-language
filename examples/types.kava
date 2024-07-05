@@ -1,0 +1,13 @@
+// Types in Kava
+let x: int; // Declaration of an integer without initialization
+let x2: int = 10; // Initialized integer
+let y: string = "Hello, World!"; // String initialization
+let z: bool = true; // Boolean initialization
+let l: int[] = List.of(1, 2, 3); // List of integers
+let f: F(int) -> int = (x: int): int -> { return x+1; }; // Function type declaration
+
+print(x2);
+print(y);
+print(z);
+print(l);
+print(f(1));

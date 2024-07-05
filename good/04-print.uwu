@@ -1,5 +1,0 @@
-print(10);
-print("abc");
-print(true);
-print(List.of(123));
-print((): void -> {});

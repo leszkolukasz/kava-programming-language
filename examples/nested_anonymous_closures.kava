@@ -1,0 +1,13 @@
+// Nested, Anonymous Functions, and Closures
+fun wrap(f: F() -> void): F() -> void {
+    fun wrapper(): void {
+        print("start");
+        f();
+        print("end");
+    }
+    return wrapper;
+}
+
+const auto f = (): void -> { print("inside"); };
+const auto wrapped = wrap(f);
+wrapped();

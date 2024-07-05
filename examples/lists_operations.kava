@@ -1,0 +1,8 @@
+// Lists and Operations
+auto l = List.of(1, 2, 3);
+print(l);
+print(l + List.of(4, 5)); // List concatenation
+
+print(1..10); // Range from 1 to 10
+print(l[0]); // Indexing, first element
+print(l[-1]); // Negative indexing, last element

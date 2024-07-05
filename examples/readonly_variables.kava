@@ -1,0 +1,9 @@
+// Read-only Variables
+const x: int = 10; // Constant variable
+// x = 11; // Error: cannot assign to a constant
+
+const auto y = "string";
+for (const x of 1..10) {
+    print(x);
+    // x = 10; // Error: cannot assign to a loop variable
+}

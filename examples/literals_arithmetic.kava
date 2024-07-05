@@ -1,0 +1,16 @@
+// Literals and Arithmetic Operations
+print("Arithmetic operations:");
+print(10 + 20); // Addition
+print(10 - 20); // Subtraction
+print(10 * 20); // Multiplication
+print(20 / 3);  // Division
+print(21 % 4);  // Modulo
+print("hello" + " world"); // String concatenation
+
+print("Comparisons:");
+print(10 == 10); // Equality
+print(10 != 20); // Inequality
+print(10 < 20);  // Less than
+print(10 <= 20); // Less than or equal to
+print(10 > 20);  // Greater than
+print(10 >= 20); // Greater than or equal to

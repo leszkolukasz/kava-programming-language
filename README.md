@@ -1,84 +1,65 @@
-## Wstęp
+# Kava - A Simple Programming Language
 
-Język wzorowany jest na Kotlinie z zapożyczeniami z JavaScript.
+## Introduction
 
-Składa się z dwóch części: interpreter i type checker. Obydwa korzystają z monad
-transformerów `ReaderT`, `StateT` i `ExceptT`. W gramatyce jest jeden shift/reduce conflict,
-który występuje w typie funkcji, która zwracaja listę np.
-
-```
-F(int) -> int[]
-```
-
-problem jest taki, że nie wiadomo czy interpretować to jako `(F(int) -> int)[]`
-czy jako `F(int) -> (int[])`. Natomiast domyślnie traktowane jest to jako to drugie,
-czyli tak jak początkowo chciałem. Jest to zatem nieszkodliwy konflikt.
+Kava is a programming language inspired by Kotlin with elements borrowed from Java and JavaScript. It is statically typed, interpreted, and supports functions as first-class citizens. It is designed to be simple and easy to learn, with a syntax that is similar to other popular languages.
 
 ## Syntax
 
-### Typy
+### Types
 
-Język wspiera następujące typy: int, string, bool, listy określonego typu (w tym listy funkcji), funkcje.
+Kava supports the following types: int, string, bool, lists of a specific type (including lists of functions), and functions.
 
-Przykłady typów:
+Examples of type annotations:
 
-```
-int
-string
-int[] // lista intów
-F(int, string) -> bool[] // funkcja dwóch parametrów int i string. Zwraca listę booli
-```
+- `int`
+- `string`
+- `int[]` - list of integers
+- `F(int, string) -> bool[]` - function with two parameters, int and string. Returns a list of booleans.
 
-### Literały
+### Literals
 
-Standardowe:
+Standard literals:
 
-```
-"string";
-10;
-List.of(1, 2, 3);
+- `"string";`
+- `10;`
+- `List.of(1, 2, 3);`
 
-// Dla funkcji:
-(a: int, b: bool[]): int -> { return a; };
-```
+For functions:
 
-### Zmienne
+- `(a: int, b: bool[]): int -> { return a; };` - anonymous function of type `F(int, bool[]) -> int`
 
-Zmienne deklaruje się w następujący sposób:
+### Variables
 
-```
-let x: <TYPE> = ...
-const y: <TYPE> = ...
+Variables are declared as follows:
 
-let z: <TYPE>;
-```
+- `let x: <TYPE> = ...`
+- `const y: <TYPE> = ...` - cannot be reassigned
+- `let z: <TYPE>;` - uninitialized variable
 
-Niezainicjalizowana zmienna ma wartość zależną od typu:
+An uninitialized variable has a default value based on its type:
 
-```
-string -> ""
-int -> 0
-bool -> false
-lista -> []
-funkcja -> Exception. Musi być zainicjalizowana
-```
+- string -> ""
+- int -> 0
+- bool -> false
+- list -> []
+- function -> Exception (must be initialized)
 
-Zaimplementowany jest prosty type inference. Jeśli typ zmiennej można wywnioskować
-z kontekstu, to nie trzeba go podawać:
+A simple type inference is implemented. If the type of a variable can be inferred from the context, it doesn't need to be explicitly stated:
 
-```
-// x jest typu int
+```kava
+// x is of type int
 auto x = 10;
 
-// y jest typu (int) -> int
+// y is of type F(int) -> int
 auto y = (a: int): int -> { return x; };
 ```
 
-### Porównania
+### Comparison operators
 
-Porównania są strukturalne:
+Comparisons are structural:
 
-```
+```kava
 List.of(1, 2) == List.of(1, 2); // true
 List.of(List.of(1, 2), List.of(3, 4)) == List.of(List.of(1, 2), List.of(3, 4)) // true
 
@@ -89,47 +70,42 @@ x == y // true
 true == false // false
 ```
 
-Funkcji nie można porównywać. Porównania "<", ">", "<=", ">=" wspierane są
-tylko dla intów i stringów. W przypadku stringów porównanie jest leksykograficzne.
+Functions cannot be compared. Operators "<", ">", "<=", ">=" are only supported for ints and strings. For strings, comparisons are lexicographical.
 
-### Arytmetyka
+### Arithmetic operators
 
-Standardowa.
+Standard arithmetic operations are supported.
 
-Dla intów: dodawanie, odejmownie, mnozenie, dzielenie, modulo.
-Dla list: dodawanie (konkatencja)
-Dla stringów: dodawanie (konkatenacja)
+For ints: addition, subtraction, multiplication, division, modulo. <br>
+For lists: addition (concatenation). <br>
+For strings: addition (concatenation).
 
-Wspierany syntactic sugar:
+Supported syntactic sugar:
 
-```
-+=
--=
-*=
-/=
-%=
-```
+- `+=`
+- `-=`
+- `*=`
+- `/=`
+- `%=`
 
-### Operacje logiczne
+### Logical operators
 
-```
-&&
-||
-!
-```
+Not lazy.
 
-### Wbudowane funkcje
+- `&&`
+- `||`
+- `!`
 
-```
-print(x) // wypisuje x, x może być dowolnego typu
-len(list) // zwraca długość listy
-```
+### Built-in Functions
 
-### Instrukcje sterujące
+- `print(x)` - prints results of expresssion `x`, where `x` can be of any type
+- `len(list)` - returns the length of the list
 
-while, if (w wersji z else if oraz else):
+### Flow Control
 
-```
+Supports `while`, `if` (with `elif` and `else`):
+
+```kava
 while (<BExp>) {
 
 }
@@ -141,37 +117,39 @@ if (<BExp>) {
 } else {
 
 }
+```
 
+Loop for iterating over list elements:
+
+```kava
 for (const <IDEN> of <LIST>) {
-    // iteruje zmienną (która jest const) po elementach listy
+    // iterates the variable (which is const) over elements of the list
 }
-
 ```
 
-### Listy
+### Lists
 
-Indeskowanie (w tym ujemnymi wartościami). Generowanie przedziałów.
+Indexing (including negative values) and ranges.
 
-```
+```kava
 len(List.of()) == 0 // true
 len(List.of("a")) == 1 // true
 
 List.of("a", "b")[0] == "a" // true
-List.of("a", "b")[-1] = "b" // true
+List.of("a", "b")[-1] == "b" // true
 
-x..y == List.of(x, x+1, ..., y-1, y) // gdy x < y
-x..y == List.of(x, x-1, ..., y+1, y) // gdy x > y
-// x, y muszą być intami, mogą być ujemne
+x..y == List.of(x, x+1, ..., y-1, y) // when x < y
+x..y == List.of(x, x-1, ..., y+1, y) // when x > y
+// x and y must be ints, they can be negative
 ```
 
-### Funkcje
+### Functions
 
-Statyczne wiązanie, rekurencja, funkcje zagnieżdzone, przekazywanie parametrów
-przez wartość, przesłanianie zmiennych, zmienne globalne.
+Supports static binding, recursion, nested functions, pass-by-value, variable shadowing, and global variables.
 
-Funkcje muszą być zadeklarowane przed użyciem.
+Functions must be declared before use.
 
-```
+```kava
 const global: int = 0;
 
 fun foo(x: int, const y: string): string {
@@ -181,14 +159,14 @@ fun foo(x: int, const y: string): string {
     }
 
     bar(y);
-    print(y); // niezmienione y
+    print(y); // y remains unchanged
     return y;
 }
 ```
 
-### Funkcje anonimowe + closure
+### Anonymous Functions and Closures
 
-```
+```kava
 fun foo(): F(int) -> int {
     let y: int = 0;
     const f: F(int) -> int = (x: int): int -> { y++; return x+y; }
@@ -196,31 +174,14 @@ fun foo(): F(int) -> int {
 }
 ```
 
-## Tabelka cech
+## Technical Details
+
+Implemented in Haskell using the BNF Converter tool as part of the course "Programming languages and paradigms" at the University of Warsaw.
+
+It consists of two parts: an interpreter and a type checker. Both use monad transformers ReaderT, StateT, and ExceptT. There is one shift/reduce conflict in the grammar, which occurs in function types that return lists, for example:
 
 ```
-  Na 15 punktów
-  01 (trzy typy) x
-  02 (literały, arytmetyka, porównania) x
-  03 (zmienne, przypisanie) x
-  04 (print) x
-  05 (while, if) x
-  06 (funkcje lub procedury, rekurencja) x
-  07 (przez zmienną / przez wartość / in/out) (przez wartość)
-  08 (zmienne read-only i pętla for) x
-  Na 20 punktów
-  09 (przesłanianie i statyczne wiązanie) x
-  10 (obsługa błędów wykonania) x
-  11 (funkcje zwracające wartość) x
-  Na 30 punktów
-  12 (4) (statyczne typowanie) x
-  13 (2) (funkcje zagnieżdżone ze statycznym wiązaniem) x
-  14 (1/2) (rekordy/listy/tablice/tablice wielowymiarowe) (listy)
-  15 (2) (krotki z przypisaniem)
-  16 (1) (break, continue)
-  17 (4) (funkcje wyższego rzędu, anonimowe, domknięcia) x
-  18 (3) (generatory)
-
-Razem: 30
-
+F(int) -> int[]
 ```
+
+The issue is that it's unclear whether to interpret this as `(F(int) -> int)[]` or as `F(int) -> (int[])`. By default, it is treated as the latter, which was the initial intention. Therefore, this conflict is harmless.

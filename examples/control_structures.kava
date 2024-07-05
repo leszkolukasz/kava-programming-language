@@ -1,3 +1,4 @@
+// Control Structures
 let i: int = 1;
 let sum: int = 0;
 
@@ -5,11 +6,9 @@ while (i <= 10) {
     sum += i;
     i += 1;
 }
-
 print(sum);
 
 let res: string[];
-
 i = 1;
 while (i <= 20) {
     if (i % 15 == 0) {
@@ -23,5 +22,4 @@ while (i <= 20) {
     }
     i += 1;
 }
-
 print(res);
